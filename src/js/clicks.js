@@ -2,7 +2,7 @@
 ************   Handle clicks and make them fast (on tap);   ************
 ===============================================================================*/
 app.initClickEvents = function () {
-    $(document).tap('a, .open-panel, .close-panel, .panel-overlay, .modal-overlay, .swipeout-delete, .close-popup, .open-popup, .open-popover', function (e) {
+    $(document).tap('a, .open-panel, .close-panel, .panel-overlay, .modal-overlay, .swipeout-delete, .close-popup, .open-popup, .open-popover, .label-checkbox, .label-radio, .label-switch, .label-switch input', function (e) {
         var clicked = $(this);
         var url = clicked.attr('href');
         // External
@@ -11,7 +11,6 @@ app.initClickEvents = function () {
         }
         // Open Panel
         if (clicked.hasClass('open-panel')) {
-            // e.preventDefault();
             if ($('.panel').length === 1) {
                 if ($('.panel').hasClass('panel-left')) app.openPanel('left');
                 else app.openPanel('right');
@@ -60,6 +59,26 @@ app.initClickEvents = function () {
                 app.closeModal();
             if ($('.popover.modal-in').length > 0) app.closeModal('.popover.modal-in');
         }
+        // Radios/checkboxes
+        if (clicked.hasClass('label-checkbox') || clicked.hasClass('label-radio')) {
+            var input = clicked.find('input');
+            if (input.attr('type') === 'checkbox') {
+                if (input[0].checked === true) input[0].checked = false;
+                else input[0].checked = true;
+            }
+            if (input.attr('type') === 'radio') {
+                clicked.find('input')[0].checked = true;
+            }
+            input.trigger('change');
+            return;
+        }
+        if ($.supportTouch) {
+            if (clicked.parent().hasClass('label-switch')) {
+                clicked[0].checked = !clicked[0].checked;
+                clicked.trigger('change');
+            }
+        }
+        
         // Tabs
         if (clicked.hasClass('tab-link')) {
             var newTab = $(clicked.attr('href'));
@@ -106,7 +125,7 @@ app.initClickEvents = function () {
         }
     });
     //Disable clicks
-    $(document).on('click', 'a', function (e) {
+    $(document).on('click', 'a, .label-checkbox, .label-radio', function (e) {
         if (!$(this).hasClass('external')) e.preventDefault();
     });
 };

@@ -73,23 +73,6 @@
   width: 42px;
   height: 42px;
 }
-.ks-preloader-big span {
-  background: red;
-}
-.ks-preloader-small {
-  width: 20px;
-  height: 20px;
-}
-.ks-preloader-small span {
-  background: blue;
-}
-.ks-preloader-xsmall {
-  width: 12px;
-  height: 12px;
-}
-.ks-preloader-xsmall span {
-  background: green;
-}
 .page[data-page="messages"] .page-content {
   padding-bottom: 44px;
 }

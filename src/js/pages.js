@@ -15,13 +15,13 @@ app.pageInitCallback = function (view, pageContainer, url, position) {
         from: position
     };
     // Before Init Callback
-    if (app.params.onBeforePageInit) {
-        app.params.onBeforePageInit(pageData);
+    if (app.params.onPageBeforeInit) {
+        app.params.onPageBeforeInit(pageData);
     }
-    if (view.params.onBeforePageInit) {
-        view.params.onBeforePageInit(pageData);
+    if (view.params.onPageBeforeInit) {
+        view.params.onPageBeforeInit(pageData);
     }
-    $(document).trigger('beforePageInit', {page: pageData});
+    $(document).trigger('pageBeforeInit', {page: pageData});
     app.initPage(pageContainer);
     // Init Callback
     if (app.params.onPageInit) {
@@ -82,10 +82,6 @@ app.pageAnimCallbacks = function (callback, view, params) {
 };
 // Init Page Events and Manipulations
 app.initPage = function (pageContainer) {
-    // Prevent Togglers from bubbling AnimationEnd events
-    $(pageContainer).find('.switch').on('webkitAnimationEnd OAnimationEnd MSAnimationEnd animationend', function (e) {
-        e.stopPropagation();
-    });
     // Size navbars on page load
     app.sizeNavbars($(pageContainer).parents('.view')[0]);
     // Init messages

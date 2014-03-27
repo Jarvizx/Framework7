@@ -87,11 +87,17 @@ app.prompt = function (text, callbackOk, callbackCancel) {
 app.showPreloader = function (title) {
     return app.modal({
         title: title || app.params.modalPreloaderTitle,
-        text: '<div class="preloader"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>'
+        text: '<div class="preloader"></div>'
     });
 };
 app.hidePreloader = function () {
     app.closeModal();
+};
+app.showIndicator = function () {
+    $('body').append('<div class="preloader-indicator-overlay"></div><div class="preloader-indicator-modal"><span class="preloader preloader-white"></span></div>');
+};
+app.hideIndicator = function () {
+    $('.preloader-indicator-overlay, .preloader-indicator-modal').remove();
 };
 // Action Sheet
 app.actions = function (params) {
@@ -144,13 +150,15 @@ app.actions = function (params) {
     var groups = modal.find('.actions-modal-group');
     groups.each(function (index, el) {
         var groupIndex = index;
-        $(el).find('.actions-modal-button').each(function (index, el) {
+        $(el).children().each(function (index, el) {
             var buttonIndex = index;
             var buttonParams = params[groupIndex][buttonIndex];
-            $(el).tap(function (e) {
-                if (buttonParams.close !== false) app.closeModal(modal);
-                if (buttonParams.onClick) buttonParams.onClick(modal, e);
-            });
+            if ($(el).hasClass('actions-modal-button')) {
+                $(el).tap(function (e) {
+                    if (buttonParams.close !== false) app.closeModal(modal);
+                    if (buttonParams.onClick) buttonParams.onClick(modal, e);
+                });
+            }
         });
     });
     app.openModal(modal);

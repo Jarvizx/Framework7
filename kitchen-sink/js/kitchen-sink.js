@@ -10,13 +10,6 @@ var myApp = new Framework7({
     onPageBeforeAnimation: function (page) {
         // Do something on page ready(centered)
         // console.log(page);
-    },
-    // Hide/show preloader on ajax request when loading page 
-    onAjaxStart: function () {
-        myApp.showPreloader();
-    },
-    onAjaxComplete: function () {
-        myApp.hidePreloader();
     }
 });
 // Expose Internal DOM library
@@ -88,6 +81,12 @@ $$('.popover a').tap(function () {
 });
 
 // Preloader Demo
+$$(document).tap('.demo-indicator', function () {
+    myApp.showIndicator();
+    setTimeout(function () {
+        myApp.hideIndicator();
+    }, 2000);
+});
 $$(document).tap('.demo-preloader', function () {
     myApp.showPreloader();
     setTimeout(function () {
